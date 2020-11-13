@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="schedule_text_size">30sp</dimen>
+    <dimen name="schedule_padding">12dp</dimen>
+
+    <dimen name="detail_text_size">40sp</dimen>
+    <dimen name="detail_description_text_size">30sp</dimen>
+    <dimen name="detail_padding">30dp</dimen>
+</resources>
