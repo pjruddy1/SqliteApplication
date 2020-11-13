@@ -47,7 +47,7 @@ public class ClassDatabase extends SQLiteOpenHelper {
                 ClassTable.COL_DESC + ", " +
                 ClassTable.COL_LOC + ", " +
                 ClassTable.COL_DAYTIME + ", " +
-                ClassTable.COL_INSTRUCTOR );
+                ClassTable.COL_INSTRUCTOR + ")");
 
         ContentValues values = new ContentValues();
         values.put(ClassTable.COL_NAME, "ISYS 221");

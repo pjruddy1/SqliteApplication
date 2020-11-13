@@ -1,5 +1,6 @@
 package com.zybooks.sqliteapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,7 +18,13 @@ import java.util.List;
 public class ScheduleFragment extends Fragment {
 
     public Object mTag;
+    public int mClassId;
     private ClassDatabase clssDB;
+    private OnClassSelectedListener mListener;
+
+    public interface OnClassSelectedListener {
+        void onClassSelected(int classId);
+    }
 
     public ScheduleFragment(ClassDatabase mClassDB) {
         clssDB = mClassDB;
@@ -32,8 +39,8 @@ public class ScheduleFragment extends Fragment {
 
         // Create the buttons using the band names and ids from BandDatabase
 
-        List<Class> classList = clssDB.getInstance(getContext()).getClasses();
-        for (int i = 0; i < classList.size(); i++) {
+        List<Class> classList = ClassDatabase.getInstance(getContext()).getClasses();
+        for (Class cls : classList) {
             Button button = new Button(getContext());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -41,8 +48,6 @@ public class ScheduleFragment extends Fragment {
             layoutParams.setMargins(0, 0, 0, 10);   // 10 px
             button.setLayoutParams(layoutParams);
 
-            Class cls = new Class();
-            cls = ClassDatabase.getInstance(getContext()).getClss(cls.getId());
             button.setText(cls.getName());
             button.setTag(Integer.toString(cls.getId()));
 
@@ -57,17 +62,45 @@ public class ScheduleFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnClassSelectedListener) {
+            mListener = (OnClassSelectedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnBandSelectedListener");
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            // Start DetailsActivity
-
-            Intent intent = new Intent(getActivity(), DetailsActivity.class);
+            // Notify activity of band selection
             String classId = (String) view.getTag();
-            intent.putExtra(DetailsActivity.EXTRA_CLASS_ID, Integer.parseInt(classId));
-            startActivity(intent);
+            mListener.onClassSelected(Integer.parseInt(classId));
         }
     };
+
+
+
+//    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            // Start DetailsActivity
+//
+//            Intent intent = new Intent(getActivity(), DetailsActivity.class);
+//            String classId = (String) view.getTag();
+//            intent.putExtra(EXTRA_CLASS_ID, classId);
+//            startActivity(intent);
+//        }
+//    };
+
+
 }

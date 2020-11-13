@@ -13,7 +13,7 @@ import androidx.fragment.app.ListFragment;
 
 import java.util.List;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity implements ScheduleFragment.OnClassSelectedListener {
 
     private ClassDatabase mClassDB;
 
@@ -61,6 +61,15 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private void addClass() {
         Intent intent = new Intent(this, NewClassActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClassSelected(int classId) {
+        int mClassId = classId;
+
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.EXTRA_CLASS_ID, classId);
         startActivity(intent);
     }
 }
