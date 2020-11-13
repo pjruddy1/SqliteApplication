@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    public static final String EXTRA_CLASS_ID = "classId";
+    public static String EXTRA_CLASS_ID = "1";
     private Class mClass;
     private ClassDatabase mClassDB;
     private int mClassID;

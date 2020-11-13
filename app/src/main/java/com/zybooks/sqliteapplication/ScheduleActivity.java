@@ -16,6 +16,8 @@ import java.util.List;
 public class ScheduleActivity extends AppCompatActivity implements ScheduleFragment.OnClassSelectedListener {
 
     private ClassDatabase mClassDB;
+    private static final String KEY_CLASS_ID = "classId";
+    private int mClassId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,22 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleFragm
             fragmentManager.beginTransaction()
                     .add(R.id.schedule_fragment_container, fragment)
                     .commit();
+        }
+
+        if (savedInstanceState != null && savedInstanceState.getInt(KEY_CLASS_ID) != 0) {
+            mClassId = savedInstanceState.getInt(KEY_CLASS_ID);
+            fragment = DetailsFragment.newInstance(mClassId);
+            getSupportFragmentManager().beginTransaction().commit();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        // Save state when something is selected
+        if (mClassId != -1) {
+            savedInstanceState.putInt(KEY_CLASS_ID, mClassId);
         }
     }
 
@@ -65,11 +83,9 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleFragm
     }
 
     @Override
-    public void onClassSelected(int classId) {
-        int mClassId = classId;
-
+    public void onClassSelected(int classID) {
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.EXTRA_CLASS_ID, classId);
+        intent.putExtra(DetailsActivity.EXTRA_CLASS_ID, classID);
         startActivity(intent);
     }
 }

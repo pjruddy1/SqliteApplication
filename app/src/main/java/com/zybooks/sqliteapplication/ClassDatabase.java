@@ -120,12 +120,13 @@ public class ClassDatabase extends SQLiteOpenHelper {
     public Class getClss(int questionId) {
         Class aClass = null;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+
+        SQLiteDatabase db = mClassDb.getWritableDatabase();
         String sql = "select * from " + ClassTable.TABLE +
                 " where " + ClassTable.COL_ID + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[] { Float.toString(questionId) });
 
-        if (cursor.moveToFirst()) {
+        if (cursor.getColumnCount() == 1) {
             Class cls = new Class();
             cls.setName(cursor.getString(1));
             cls.setDescription(cursor.getString(2));

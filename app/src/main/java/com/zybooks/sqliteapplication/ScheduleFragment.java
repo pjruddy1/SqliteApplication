@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -31,35 +34,69 @@ public class ScheduleFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
-        LinearLayout layout = (LinearLayout) view;
 
-        // Create the buttons using the band names and ids from BandDatabase
+        RecyclerView recyclerView = view.findViewById(R.id.class_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<Class> classList = ClassDatabase.getInstance(getContext()).getClasses();
-        for (Class cls : classList) {
-            Button button = new Button(getContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 0, 0, 10);   // 10 px
-            button.setLayoutParams(layoutParams);
-
-            button.setText(cls.getName());
-            button.setTag(Integer.toString(cls.getId()));
-
-            mTag = button.getTag();
-            // All the buttons have the same click listener
-            button.setOnClickListener(buttonClickListener);
-
-            // Add the button to the LinearLayout
-            layout.addView(button);
-        }
+        // Send classes to recycler view
+        ClassAdapter adapter = new ClassAdapter(ClassDatabase.getInstance(getContext()).getClasses());
+        recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    private class ClassHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
+        private Class mClass;
+
+        private TextView mNameTextView;
+
+        public ClassHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.schedule_item_class, parent, false));
+            itemView.setOnClickListener(this);
+            mNameTextView = itemView.findViewById(R.id.clsName);
+        }
+
+        public void bind(Class cls) {
+            mClass = cls;
+            mNameTextView.setText(mClass.getName());
+        }
+
+        @Override
+        public void onClick(View view) {
+            // Tell ScheduleActivity what class was clicked
+            mListener.onClassSelected(mClass.getId());
+        }
+    }
+
+    private class ClassAdapter extends RecyclerView.Adapter<ClassHolder> {
+
+        private List<Class> mClasses;
+
+        public ClassAdapter(List<Class> classes) {
+            mClasses = classes;
+        }
+
+        @Override
+        public ClassHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new ClassHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(ClassHolder holder, int position) {
+            Class cls = mClasses.get(position);
+            holder.bind(cls);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mClasses.size();
+        }
     }
 
     @Override
@@ -83,8 +120,9 @@ public class ScheduleFragment extends Fragment {
         @Override
         public void onClick(View view) {
             // Notify activity of band selection
-            String classId = (String) view.getTag();
-            mListener.onClassSelected(Integer.parseInt(classId));
+            mTag = view.getTag();
+            String className = (String) view.getTag();
+            mListener.onClassSelected(Integer.parseInt(className));
         }
     };
 
