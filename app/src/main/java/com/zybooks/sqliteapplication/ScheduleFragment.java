@@ -1,5 +1,6 @@
 package com.zybooks.sqliteapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +9,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,6 +31,8 @@ public class ScheduleFragment extends Fragment {
     public int mClassId;
     private ClassDatabase clssDB;
     private OnClassSelectedListener mListener;
+    private String mString;
+    private Toast toast;
 
     public interface OnClassSelectedListener {
         void onClassSelected(int classId);
@@ -45,8 +54,49 @@ public class ScheduleFragment extends Fragment {
         ClassAdapter adapter = new ClassAdapter(ClassDatabase.getInstance(getContext()).getClasses());
         recyclerView.setAdapter(adapter);
 
+
         return view;
     }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete:
+
+                Class course = new Class();
+                clssDB = ClassDatabase.getInstance(getContext());
+                course = clssDB.getClss(Integer.parseInt(mString));
+
+                try {
+                    clssDB.deleteClass(course);
+                    toast = Toast.makeText(getContext(),"Class Deleted",Toast.LENGTH_SHORT);
+                    toast.setMargin(50,50);
+                    toast.show();
+                    Intent intent = new Intent(getActivity(), ScheduleActivity.class);
+                    startActivity(intent);
+
+                }catch (Exception e){
+                    toast = Toast.makeText(getContext(),"Failed to Delete Class",Toast.LENGTH_SHORT);
+                    toast.setMargin(50,50);
+                    toast.show();
+                }
+                return true;
+
+            case R.id.update:
+                clssDB = ClassDatabase.getInstance(getContext());
+                course = clssDB.getClss(Integer.parseInt(mString));
+                //Intent intent = new Intent(this, UpdateCourseActivity.class);
+                //intent.putExtra(UpdateCourseActivity.EXTRA_CLASS_ID, String.valueOf(course.getId()));
+                //startActivity(intent);
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+
 
     private class ClassHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
@@ -58,7 +108,9 @@ public class ScheduleFragment extends Fragment {
         public ClassHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.schedule_item_class, parent, false));
             itemView.setOnClickListener(this);
+//            itemView.setOnLongClickListener(this);
             mNameTextView = itemView.findViewById(R.id.clsName);
+
         }
 
         public void bind(Class cls) {
@@ -116,15 +168,15 @@ public class ScheduleFragment extends Fragment {
         mListener = null;
     }
 
-    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // Notify activity of band selection
-            mTag = view.getTag();
-            String className = (String) view.getTag();
-            mListener.onClassSelected(Integer.parseInt(className));
-        }
-    };
+//    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            // Notify activity of band selection
+//            mTag = view.getTag();
+//            String className = (String) view.getTag();
+//            mListener.onClassSelected(Integer.parseInt(className));
+//        }
+//    };
 
 
 

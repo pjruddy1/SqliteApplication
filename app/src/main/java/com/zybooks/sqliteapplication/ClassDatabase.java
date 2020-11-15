@@ -74,6 +74,7 @@ public class ClassDatabase extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Class cls = new Class();
+                cls.setId(Integer.parseInt(cursor.getString(0)));
                 cls.setName(cursor.getString(1));
                 cls.setDescription(cursor.getString(2));
                 cls.setLocation(cursor.getString(3));
@@ -99,7 +100,7 @@ public class ClassDatabase extends SQLiteOpenHelper {
         return id != -1;
     }
 
-    public void updateClass(Class cls) {
+    public void updateClass(Class cls, String oldName) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ClassTable.COL_NAME, cls.getName());
@@ -108,7 +109,7 @@ public class ClassDatabase extends SQLiteOpenHelper {
         values.put(ClassTable.COL_DAYTIME, cls.getDaysTimes());
         values.put(ClassTable.COL_INSTRUCTOR, cls.getInstructor());
         db.update(ClassTable.TABLE, values,
-                ClassTable.COL_NAME + " = ?", new String[] { cls.getName() });
+                ClassTable.COL_NAME + " = ?", new String[] { oldName });
     }
 
     public void deleteClass(Class cls) {
@@ -118,16 +119,15 @@ public class ClassDatabase extends SQLiteOpenHelper {
     }
 
     public Class getClss(int questionId) {
-        Class aClass = null;
-
 
         SQLiteDatabase db = mClassDb.getWritableDatabase();
         String sql = "select * from " + ClassTable.TABLE +
                 " where " + ClassTable.COL_ID + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[] { Float.toString(questionId) });
 
-        if (cursor.getColumnCount() == 1) {
+        if (cursor.moveToFirst()) {
             Class cls = new Class();
+            cls.setId(Integer.parseInt(cursor.getString(0)));
             cls.setName(cursor.getString(1));
             cls.setDescription(cursor.getString(2));
             cls.setLocation(cursor.getString(3));

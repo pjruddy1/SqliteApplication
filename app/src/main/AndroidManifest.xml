@@ -8,12 +8,15 @@
         android:label="Class Schedule"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".NewClassActivity"
-            android:parentActivityName=".ScheduleActivity"></activity>
-        <activity android:name=".DetailsActivity"
-            android:parentActivityName=".ScheduleActivity"/>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".UpdateActivity"></activity>
+        <activity
+            android:name=".NewClassActivity"
+            android:parentActivityName=".ScheduleActivity" />
+        <activity
+            android:name=".DetailsActivity"
+            android:parentActivityName=".ScheduleActivity" />
         <activity android:name=".ScheduleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

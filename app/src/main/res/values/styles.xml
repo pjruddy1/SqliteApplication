@@ -3,7 +3,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorBlack</item>
         <item name="android:buttonStyle">@style/buttonStyle</item>
     </style>
 
@@ -25,6 +25,7 @@
         <item name="android:paddingLeft">@dimen/detail_padding</item>
         <item name="android:paddingRight">@dimen/detail_padding</item>
         <item name="android:paddingTop">@dimen/detail_padding</item>
+
     </style>
 
     <style name="buttonStyle">
@@ -33,7 +34,7 @@
         <item name="android:minHeight">@dimen/abc_action_button_min_height_material</item>
         <item name="android:scaleType">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textSize">@dimen/schedule_text_size</item>
     </style>
 </resources>

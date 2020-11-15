@@ -4,9 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -15,6 +21,12 @@ public class DetailsActivity extends AppCompatActivity {
     private ClassDatabase mClassDB;
     private int mClassID;
     private String string;
+    private Toast toast;
+    private TextView nameTextView;
+    private TextView descriptionTextView;
+    private TextView locationTextView;
+    private TextView dayTimeTextView;
+    private TextView instructorTextView;
 
 
 
@@ -29,19 +41,65 @@ public class DetailsActivity extends AppCompatActivity {
 
         mClass = mClassDB.getClss(mClassID);
 
-        TextView nameTextView = findViewById(R.id.className);
+        nameTextView = findViewById(R.id.className);
         nameTextView.setText(mClass.getName());
 
-        TextView descriptionTextView = findViewById(R.id.classDescription);
+        descriptionTextView = findViewById(R.id.classDescription);
         descriptionTextView.setText(mClass.getDescription());
 
-        TextView locationTextView = findViewById(R.id.classLocation);
+        locationTextView = findViewById(R.id.classLocation);
         descriptionTextView.setText(mClass.getLocation());
 
-        TextView dayTimeTextView = findViewById(R.id.classDaysTimes);
+        dayTimeTextView = findViewById(R.id.classDaysTimes);
         descriptionTextView.setText(mClass.getDaysTimes());
 
-        TextView instructorTextView = findViewById(R.id.classInstructor);
+        instructorTextView = findViewById(R.id.classInstructor);
         descriptionTextView.setText(mClass.getInstructor());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate menu for the app bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.details_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Determine which app bar item was chosen
+        switch (item.getItemId()) {
+
+            case R.id.delete:
+                Class course = new Class();
+                mClassDB = ClassDatabase.getInstance(getApplicationContext());
+                course = mClassDB.getClss(mClassID);
+
+                try {
+                    mClassDB.deleteClass(course);
+                    toast = Toast.makeText(getApplicationContext(),"Class Deleted",Toast.LENGTH_SHORT);
+                    toast.setMargin(50,50);
+                    toast.show();
+                    Intent intent = new Intent(this, ScheduleActivity.class);
+                    startActivity(intent);
+
+                }catch (Exception e){
+                    toast = Toast.makeText(getApplicationContext(),"Failed to Delete Class",Toast.LENGTH_SHORT);
+                    toast.setMargin(50,50);
+                    toast.show();
+                }
+                return true;
+
+            case R.id.update:
+                Intent intent = new Intent(this, UpdateActivity.class);
+                intent.putExtra(UpdateActivity.EXTRA_CLASS_ID, mClassID);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

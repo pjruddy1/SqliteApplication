@@ -14,6 +14,15 @@ public class Class {
 
     }
 
+    public Class(Class cls){
+        mId = cls.mId;
+        mName = cls.mName;
+        mDescription = cls.mDescription;
+        mLocation = cls.mLocation;
+        mDaysTimes = cls.mDaysTimes;
+        mInstructor = cls.mInstructor;
+    }
+
     public Class(int id, String name, String description, String location, String daysTimes, String instructor) {
         mId = id;
         mName = name;

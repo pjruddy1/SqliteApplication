@@ -2,9 +2,12 @@ package com.zybooks.sqliteapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -18,6 +21,8 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleFragm
     private ClassDatabase mClassDB;
     private static final String KEY_CLASS_ID = "classId";
     private int mClassId;
+    private String mString;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleFragm
             fragment = DetailsFragment.newInstance(mClassId);
             getSupportFragmentManager().beginTransaction().commit();
         }
+        //registerForContextMenu(fragment);
     }
 
     @Override
@@ -88,4 +94,6 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleFragm
         intent.putExtra(DetailsActivity.EXTRA_CLASS_ID, classID);
         startActivity(intent);
     }
+
+
 }
