@@ -53,15 +53,15 @@ public class DetailsActivity extends AppCompatActivity {
 
         locationTextView = (TextView) findViewById(R.id.classLocation);
         holder = mClass.getLocation();
-        descriptionTextView.setText(holder);
+        locationTextView.setText(holder);
 
         dayTimeTextView = (TextView) findViewById(R.id.classDaysTimes);
         holder = mClass.getDaysTimes();
-        descriptionTextView.setText(holder);
+        dayTimeTextView.setText(holder);
 
         instructorTextView = (TextView) findViewById(R.id.classInstructor);
         holder = mClass.getInstructor();
-        descriptionTextView.setText(holder);
+        instructorTextView.setText(holder);
     }
 
     @Override
