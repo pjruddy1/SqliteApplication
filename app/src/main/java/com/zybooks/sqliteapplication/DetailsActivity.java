@@ -30,6 +30,7 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +42,26 @@ public class DetailsActivity extends AppCompatActivity {
 
         mClass = mClassDB.getClss(mClassID);
 
-        nameTextView = findViewById(R.id.className);
-        nameTextView.setText(mClass.getName());
+        nameTextView = (TextView) findViewById(R.id.className);
+        String holder = mClass.getName();
+        nameTextView.setText(holder);
 
-        descriptionTextView = findViewById(R.id.classDescription);
-        descriptionTextView.setText(mClass.getDescription());
 
-        locationTextView = findViewById(R.id.classLocation);
-        descriptionTextView.setText(mClass.getLocation());
+        descriptionTextView = (TextView) findViewById(R.id.classDescription);
+        holder = mClass.getDescription();
+        descriptionTextView.setText(holder);
 
-        dayTimeTextView = findViewById(R.id.classDaysTimes);
-        descriptionTextView.setText(mClass.getDaysTimes());
+        locationTextView = (TextView) findViewById(R.id.classLocation);
+        holder = mClass.getLocation();
+        descriptionTextView.setText(holder);
 
-        instructorTextView = findViewById(R.id.classInstructor);
-        descriptionTextView.setText(mClass.getInstructor());
+        dayTimeTextView = (TextView) findViewById(R.id.classDaysTimes);
+        holder = mClass.getDaysTimes();
+        descriptionTextView.setText(holder);
+
+        instructorTextView = (TextView) findViewById(R.id.classInstructor);
+        holder = mClass.getInstructor();
+        descriptionTextView.setText(holder);
     }
 
     @Override

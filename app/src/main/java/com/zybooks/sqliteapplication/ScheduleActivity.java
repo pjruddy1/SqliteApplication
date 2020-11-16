@@ -41,12 +41,7 @@ public class ScheduleActivity extends AppCompatActivity implements ScheduleFragm
                     .commit();
         }
 
-        if (savedInstanceState != null && savedInstanceState.getInt(KEY_CLASS_ID) != 0) {
-            mClassId = savedInstanceState.getInt(KEY_CLASS_ID);
-            fragment = DetailsFragment.newInstance(mClassId);
-            getSupportFragmentManager().beginTransaction().commit();
-        }
-        //registerForContextMenu(fragment);
+
     }
 
     @Override

@@ -11,46 +11,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Class Name:"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/className"
         android:textAlignment="center"/>
+
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Class Description:"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classDescription"
         android:textAlignment="center"/>
+
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Class Location:"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classLocation"
         android:textAlignment="center"/>
+
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Class Day and Time:"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classDaysTimes"
         android:textAlignment="center"/>
+
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Class Instructor:"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
